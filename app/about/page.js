@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function About() {
   return (
@@ -20,16 +21,23 @@ export default function About() {
         <div className="border-b border-[#343434]"></div>
       </div>
       <div className="flex justify-center mb-8">
-        <img src="/blog-intro.png" alt="Erratic Thoughts and More" className="max-w-full" />
+        <Image 
+          src="/blog-intro.png" 
+          alt="Erratic Thoughts and More" 
+          width={800}
+          height={400}
+          className="max-w-full"
+          priority
+        />
       </div>
       <div className="font-body space-y-6">
         <section className="border border-subheading/20 p-6 rounded-lg">
           <h2 className="font-title text-2xl font-semibold mb-4">Jotting down my screams, one sentence at a time.</h2>
           <p className="text-subheading text-xl leading-8 mb-8">
-            As the title reads, you will be immersed in my hikikomori-bedroom-like mess of a mind. Here I write true reflections of what I think and feel. I won't try to be as diplomatic as I am on X or any other platforms.
+            As the title reads, you will be immersed in my hikikomori-bedroom-like mess of a mind. Here I write true reflections of what I think and feel. I won&apos;t try to be as diplomatic as I am on X or any other platforms.
           </p>
           <p className="text-subheading text-xl leading-8 mb-8">
-            Well, that's why anyone set up blogs of their own in the first place, right?
+            Well, that&apos;s why anyone set up blogs of their own in the first place, right?
           </p>
           <p className="text-subheading text-xl leading-8">
             So here it is, my honest thoughts on music, design, politics(?), and life in general. All are written with no grammar checks, AI suggestions, or any sort of effort to be aligned with the current trends.
