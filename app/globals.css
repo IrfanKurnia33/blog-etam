@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #1D1D1D;
+  --foreground: #d5d5d5;
+  --title-color: #CEE79E;
+  --subheading-color: #D0D0D0;
+  --link-color: #8CBE2E;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-title: var(--title-color);
+  --color-subheading: var(--subheading-color);
+  --color-link: var(--link-color);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base styles */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-ibm-plex-serif);
+  font-weight: 500;
+}
+
+/* Heading styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sora) !important;
+  color: var(--title-color);
+}
+
+h2, h3, h4, h5, h6 {
+  color: var(--subheading-color);
+}
+
+/* Link styles */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+/* Monospace styles */
+code, pre, .mono {
+  font-family: var(--font-azeret-mono) !important;
+}
+
+/* Typography utility classes */
+.font-title {
+  font-family: var(--font-sora) !important;
+}
+
+.font-body {
+  font-family: var(--font-ibm-plex-serif) !important;
+}
+
+.font-mono {
+  font-family: var(--font-azeret-mono) !important;
+}
+
+/* Remove dark mode override since we're using a fixed dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Keep the same colors */
+  }
 }

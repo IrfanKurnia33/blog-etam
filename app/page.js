@@ -1,103 +1,66 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { getPosts } from '@/lib/wordpress';
 
-export default function Home() {
+export default async function Home() {
+  const posts = await getPosts();
+
+  const cleanContent = (content) => {
+    // Replace different formats of non-breaking spaces
+    return content
+      .replace(/&nbsp;/gi, ' ') // Case insensitive &nbsp;
+      .replace(/\u00A0/g, ' ') // Unicode non-breaking space
+      .replace(/\xA0/g, ' ') // Hex non-breaking space
+      .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+      .trim(); // Remove leading/trailing spaces
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="container mx-auto px-4 py-12 max-w-3xl">
+      <div className="text-center mb-8">
+        <div className="flex justify-center mb-4">
+          <svg width="31" height="40" viewBox="0 0 31 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.60377 12.3861L1.25337 6.17274L7.64555 0L13.996 6.21335L7.60377 12.3861ZM12.9515 26.9719V28.5963H7.22776L2.92454 24.8196V17.2593H0V15.619H9.06604L12.9515 19.4116V26.9719Z" fill="#FAFEF5"/>
+            <path d="M8.64825 21.2865L12.9515 25.0632V40H6.80997L2.92454 36.2233V22.9109V21.2865H8.64825ZM31 38.3756V40H19.2183L13.5782 27.7764V26.1926L23.0202 15.619H27.8248V17.2583H23.9811L16.0013 26.1926H23.3127L28.911 38.3756H31Z" fill="#FAFEF5"/>
+          </svg>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <h1 className="font-title text-4xl font-bold mb-2">Erratic Thoughts and More</h1>
+        <h3 className="font-body text-subheading mb-6">A personal journal of Irfan Kurnia. Writing in 🇮🇩 and 🇺🇸 🇬🇧.</h3>
+        <nav className="flex justify-center gap-6 mb-6">
+          <Link href="/about" className="text-subheading hover:text-foreground transition-colors">About</Link>
+          <a href="https://irfankurnia.com/" target="_blank" rel="noopener noreferrer" className="text-subheading hover:text-foreground transition-colors">UX Portfolio</a>
+          <a href="mailto:hello@irfankurnia.com" target="_blank" rel="noopener noreferrer" className="text-subheading hover:text-foreground transition-colors">Email Me</a>
+        </nav>
+        <div className="border-b border-[#343434]"></div>
+      </div>
+      <div className="grid gap-6">
+        {posts.map((post) => (
+          <Link 
+            key={post.id}
+            href={`/blog/${post.slug}`}
+            className="block hover:no-underline"
+          >
+            <article 
+              className="font-body border border-subheading/20 p-6 rounded-lg transition-all duration-200 hover:border-subheading/40 hover:shadow-lg hover:shadow-subheading/5 hover:-translate-y-0.5"
+            >
+              <div className="font-mono text-subheading/80 text-sm mb-3">
+                {formatDate(post.date)}
+              </div>
+              <h2 className="font-title text-2xl font-semibold mb-2">
+                {cleanContent(post.title.rendered)}
+              </h2>
+            </article>
+          </Link>
+        ))}
+      </div>
+    </main>
   );
 }
