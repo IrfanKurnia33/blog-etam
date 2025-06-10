@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { getPosts } from '@/lib/wordpress';
 
+export const revalidate = 600; // Check for updates every 10 minutes
+
 export default async function Home() {
   const posts = await getPosts();
 

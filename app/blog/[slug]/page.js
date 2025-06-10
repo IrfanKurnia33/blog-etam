@@ -1,6 +1,8 @@
 import { getPost, getPosts } from '@/lib/wordpress';
 import Link from 'next/link';
 
+export const revalidate = 600; // Check for updates every 10 minutes
+
 export async function generateStaticParams() {
   const posts = await getPosts();
   return posts.map((post) => ({
@@ -58,6 +60,7 @@ export default async function BlogPost(props) {
           )}
         </div>
         <div className="border-b border-[#343434]"></div>
+        <div className="h-8"></div>
         <div 
           className="prose prose-invert prose-lg max-w-none
             [&_h1]:font-title [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-8 [&_h1]:mt-12
